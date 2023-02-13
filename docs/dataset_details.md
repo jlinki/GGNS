@@ -1,0 +1,36 @@
+# GGNS Datasets
+Readme for the three dataset from the GGNS paper:
+- Deformable Plate
+- Tissue Manipulation
+- Cavity Grasping
+  
+## Structure of the data
+Struture of the data in the .pkl files. There are individual files for train/evaluation/test set indicated by the filename ending. In the following dataset specific properties are discussed.
+### General structure of data dict
+\todo
+### Deformable Plate Data
+- Nine trapezoids
+- The training data set contains squentially arranged samples of the 9 trapezoids, each with the three material properties $\nu \in \{-0.9, 0.0, 0.49\}$ for 25 samples each (one after another). The other properties are obtained randomly.
+- The evaluation/test data set contains squentially arranged samples of the 9 trapezoids, each with the three material $\nu \in \{-0.9, 0.0, 0.49\}$ properties for 5 samples each. The other properties are obtained randomly.
+
+### Tissue Manipulation Data
+- Train dataset: Squentially arranged samples with 200 samples for each material property. The other properties (like the gripping point on the tissue) are obtained randomly.
+- Evaluation/test dataset: 40 samples each
+
+### Cavity Grapsing Data
+- Train dataset: Sequentially arranged samples with 100 samples for each material property. This is arranged two time after each other, so the overall order is: $(-0.9, 0.0, 0.49,-0.9, 0.0, 0.49)$. The other properties (like the cone shape or the grasping point on the cone) are obtained randomly.
+- Evaluation/test dataset: 40 samples each
+
+## Details from the Paper
+
+Here, we describe all key aspects, which are valid for all three environments. All datasets are simulated using \gls{sofa} and include different material properties. Therefore, we choose discrete Poisson's ratios from $\nu \in \{-0.9, 0.0, 0.49\}$ for one-third of all simulated trajectories each. The required point clouds are not directly available in \gls{sofa}, but instead rendered from the scene of the meshes using Raycasting from [Open3D](http://www.open3d.org/docs/release/). We therefore place virtual cameras around and on top of the scene to generate partial point clouds from different directions. For the Deformable Plate dataset one camera is sufficient, while the other two tasks rely on four cameras around and one camera on top of the scene. The resulting point clouds are then fused and subsampled accordingly to achieve a processable number of points. For this we use voxel subsampling, as this leads to the most structured results, which helps the model to account for correspondences between points over time. In addition to encoding the node or edge type as one-hot features, we add an encoding to static nodes and encode the velocity of the collider in its node features. We encode the positions in space as relative features in the edges instead of absolute encodings in the node features following previous work [GNS](https://arxiv.org/abs/2002.09405). All edges thus receive their relative world coordinates, while mesh edges additionally contain relative coordinates in mesh space.
+
+
+### Deformable Plate
+For this environment, we simulate a family of $2$-dimensional trapezoids deformed by a circular collider with constant velocity. We vary the size the collider by sampling from a triangular distribution between 15 and $60~\text{\%}$ of the edge length of the deformable object. For the collider start position we sample from a uniform distribution between the left and right corner of deformable object.We record $50$ time steps per trajectory and $945$ trajectories in total, which are split in $675/135/135$ trajectories per train/evaluation and test set. A single data sample contains approx. $700$ nodes: $57$ nodes for the collider, $81$ nodes for the mesh oft the deformable object and around $600$ points in the subsampled point cloud. The mesh itself consists of $416$ edges, the total number of edges is about $3$ K depending on the deformation in the according time step.In contrast to the Poisson's ratio, the other adjustable material parameter in SOFA, the Young's modulus is kept constant for all samples at $E = 5\,000 \text{Pa}$. It describes the compressive stiffness when a force is applied lengthwise.The different material properties together with the different trapezoidal shapes introduce uncertainty in the form of multi-modality into the data. The reason for this is that different deformations result in states that cannot be clearly assigned to a single trapez-material combination. We construct this dataset because it comes with lower computational cost due to the restriction to $2$d, but already allows for more general statements due to the non-trivial deformations and the multi-modality. Therefore, it is especially suitable as a proof-of-concept and for ablations.
+
+### Tissue Manipulation
+Here, a piece of tissue is deformed by a rigid gripper which could be part of a robot-assisted surgery scenario.To generate diversity, we generate random motions in a $2d$ plane and sample a random gripping point from the $19$ top mesh points. We record $100$ time steps per trajectory and $840$ trajectories in total, which we split in $600/120/120$ trajectories per train/evaluation and test set. A single data sample consists of approx. $1\,200$ nodes: $361$ for the mesh, one for the gripper and about $850$ for the point cloud. The mesh consists of $2\,154$ edges, which leads to a total number of about $3\,800$ edges depending on the time step. To ensure physically plausible deformation, each Poisson's ratio is assigned its specific Young's modulus from $E \in \{10\,000, 80\,000, 30\,000\} \text{Pa}$.If instead it were kept the same for each Poisson's ratio, the gripper could penetrate the deformable object or pull it without touching it. The uncertainty in this dataset is mainly in the initial state, which can result in different deformations depending on the material from the same initial state.
+
+### Cavity Grasping
+We randomly generate cone-shaped cavities with radii between $87.5 \text{\%}$ and $50 \text{\%}$ of the maximum possible gripping width. The cone shape helps to increase uncertainty in the form of multi-modality in the data, because the states resulting from deformation cannot be clearly assigned to a single cone-material combination. The deformable cavities are deformed by a gripper located at random positions in space. The positions are sampled form a hexahedron around the geometrical center of the cavity ensuring collision free starting positions. For the grasping, the gripper moves as quickly as it is allowed to the gripping position and then closes its fingers with constant velocity. We record $100$ time steps per trajectory and $840$ trajectories in total, which are split in $600/120/120$ trajectories per train/evaluation and test set. A single data sample consists of approx. $2.4$ K nodes: $750$ for the mesh, $636$ for the gripper and about $1$ K for the point cloud. The mesh consists of $4\,500$ edges, the overall number of edges in the graph is about $8.5$ K depending on the exact time step.The motivation for the creation of this environment is that a successful use of our method in this setting is an important step on the way to a real-world application.  

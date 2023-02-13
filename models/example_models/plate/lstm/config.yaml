@@ -1,0 +1,130 @@
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.12.9
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.9.7
+    start_time: 1663999313
+    t:
+      1:
+      - 1
+      3:
+      - 16
+      4: 3.9.7
+      5: 0.12.9
+      8:
+      - 5
+activation_function:
+  desc: null
+  value: leakyrelu
+additional_eval:
+  desc: null
+  value: true
+aggregation_function:
+  desc: null
+  value: mean
+batch_size:
+  desc: null
+  value: 32
+build_from:
+  desc: null
+  value: deformable_plate_dataset
+clip_gradient_norm:
+  desc: null
+  value: 0.0
+dataset:
+  desc: null
+  value: coarse_full_graph_t
+connectivity_setting:
+  desc: null
+  value: coarse_full_graph_t
+dropout:
+  desc: null
+  value: 0.0
+eval_log_interval:
+  desc: null
+  value: 10
+final_test:
+  desc: null
+  value: true
+hetero:
+  desc: null
+  value: false
+imputation:
+  desc: null
+  value: lstm
+input_mesh_noise:
+  desc: null
+  value: 0.01
+latent_dimension:
+  desc: null
+  value: 128
+latent_normalization:
+  desc: null
+  value: None
+learning_rate:
+  desc: null
+  value: 0.0005
+loss_normalizer:
+  desc: null
+  value: 1.0
+mgn_hetero:
+  desc: null
+  value: false
+mlp_decoder:
+  desc: null
+  value: true
+num_blocks:
+  desc: null
+  value: 5
+num_epochs:
+  desc: null
+  value: 1000
+num_layers:
+  desc: null
+  value: 1
+output_layer:
+  desc: null
+  value: false
+pcd_weighting:
+  desc: null
+  value: None
+pointcloud_dropout:
+  desc: null
+  value: 0.0
+project:
+  desc: null
+  value: Trapez-rev0
+run_num:
+  desc: null
+  value: 4
+sequence_length:
+  desc: null
+  value: 5
+use_colors:
+  desc: null
+  value: false
+use_global_features:
+  desc: null
+  value: false
+use_mesh_coordinates:
+  desc: null
+  value: true
+use_poisson:
+  desc: null
+  value: false
+use_residual_connections:
+  desc: null
+  value: true
+wandb_log:
+  desc: null
+  value: true
+wandb_version: 1
+weight_decay:
+  desc: null
+  value: 0.0
+weighted_dataset:
+  desc: null
+  value: true

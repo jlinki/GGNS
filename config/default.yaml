@@ -1,0 +1,92 @@
+## Default example .yaml file to train the GGNS algorithm on the plate dataset for 10 epochs
+# it includes all hyperparameters used and short descriptions
+
+# Log the run using wandb
+wandb_log: False
+
+## GNN Architecture
+# Activation function for all non-linearities
+activation_function: leakyrelu
+# Aggregation function for the node (and global) feature update
+aggregation_function: mean
+# Dropout probability on the MLPs of the MPN
+dropout: 0.0
+# Latent dimension used in the MLPs of the MPN
+latent_dimension: 128
+# Latent normalization used in the MLPs of the MPN: None, batch, layer
+latent_normalization: None
+# Number of message passing blocks in the MPN
+num_blocks: 5
+# Number of linear + activation layers in one message passing blocks in the MPN
+num_layers: 1
+# Usage of global features in the MPN
+use_global_features: False
+# Usage of residual connections around the message passing block in the MPN
+use_residual_connections: True
+# Usage of linear layer after activation in MLP
+output_layer: False
+# Usage of a 'num_layers'-layer MLP layer as decoder (instead of default linear layer)
+mlp_decoder: True
+# Usage of a heterogeneous MPN, explicitly supporting different types of nodes and edges
+hetero: False
+# (Only if hetero:True) Aggregation of node types and node features nodetypes_nodefeatures: concat_aggr, concat_concat, aggr_aggr
+het_neighbor_aggregation: concat_aggr
+# (Only if hetero:True) Use shared weights for the different edge types
+het_edge_shared_weights: False
+# (Only if hetero:True) Use shared weights for the different node types
+het_node_shared_weights: True
+# (Only if hetero:True) Use the heterogeneous version of MGN with two edge types: world and mesh edges
+mgn_hetero: False
+# Use the poisson ratio as input to the model (e.g. for MGN(M)
+use_poisson: False
+
+## Dataset
+# Connectivity radii for the different edge types (see src/utils/get_connectivity_setting.py for more infos)
+connectivity_setting: coarse_full_graph_t
+# Dataset to build the graph from: deformable_plate_dataset, tissue_manipulation_dataset, cavity_grasping_dataset
+build_from: deformable_plate_dataset
+# (deprecated) Use colors of the point cloud as input features (only 2d)
+use_colors: False
+# Use mesh coordinates on mesh edges in addition to world coordinates as input features
+use_mesh_coordinates: True
+
+## Training
+# Batch size: number of graphs per batch
+batch_size: 32
+# Initial learning rate used in adam optimizer
+learning_rate: 0.0005
+# Loss normalizer for the reported and output loss values (as these are typically range from 10e-5 to 10e-7)
+loss_normalizer: 1
+# Not recommended to use weight_decay! Leads to an average velocity learned for all nodes
+weight_decay: 0.0
+# Noise standard deviation on mesh positions (positions are normalized to -1, 1 cube)
+input_mesh_noise: 0.01
+# Noise standard deviation on point cloud positions (positions are normalized to -1, 1 cube)
+input_pcd_noise: 0.0
+# After training is finished automatically test on test set and report to wandb
+final_test: True
+# Clip the gradient if outliers occur, 0.0 means no clipping
+clip_gradient_norm: 0.0
+# Number of training epochs
+num_epochs: 10
+# Number of epoch after which an evaluation on the evaluation set is done
+eval_log_interval: 5
+# Number of run e.g. in a sweep, also defines the seed for torch and numpy
+run_num: 0
+
+## Imputation Training
+# Perform additional evaluations e.g. on using point clouds only each k-th time step
+additional_eval: False
+# (deprecated) Use point cloud dropout during training, 1.0 means no point clouds are used
+pointcloud_dropout: 0.0
+# Use dataset consisting of graph samples with and without point clouds. All samples existing and are shuffled each epoch
+weighted_dataset: False
+# (only if weighted_dataset: True) Number of samples from each trajectory that are used for building samples with point clouds included in the graph.
+# E.g. 5 means only the first 5 samples in each trajectory are used in the train set with point clouds.
+# Mesh-only samples always use the complete trajectory
+sequence_length: 50
+# (only if weighted_dataset: True) Use a specific weighting for the samples with point cloud: E.g. if only the first 5 samples of each trajectory include point clouds,
+# there are significantly more samples without point clouds. A weighting of 10 would alleviate this problem. "None" always results in a rounded equal weighting.
+pcd_weighting: None
+
+

@@ -1,0 +1,47 @@
+project: 'Tissue-Manipulation'
+wandb_log: True
+
+# GNN Architecture
+activation_function: leakyrelu
+aggregation_function: mean
+dropout: 0.0
+latent_dimension: 128
+latent_normalization: None
+num_blocks: 5
+num_layers: 1
+use_global_features: False
+use_residual_connections: True
+output_layer: False
+mlp_decoder: True
+hetero: False
+#het_neighbor_aggregation: concat_aggr
+#het_edge_shared_weights: True
+#het_node_shared_weights: False
+mgn_hetero: False
+use_poisson: False
+
+# Dataset
+connectivity_setting: tissue_no_pcd_edges_t
+build_from: tissue_manipulation_dataset
+use_colors: False
+use_mesh_coordinates: True
+
+# Training
+batch_size: 32
+learning_rate: 0.0005
+loss_normalizer: 1.0
+weight_decay: 0.0
+input_mesh_noise: 0.01
+input_pcd_noise: 0.0
+final_test: True
+clip_gradient_norm: 0.0
+num_epochs: 800
+eval_log_interval: 10
+
+# Imputation
+pointcloud_dropout: 0.0
+additional_eval: True
+sequence_length: 100
+weighted_dataset: True
+pcd_weighting: None
+
