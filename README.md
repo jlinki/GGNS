@@ -29,7 +29,7 @@ pip install open3d
 pip install Shapely
 ``` 
 #### Datasets
-All data was generated using [SOFA](https://github.com/sofa-framework/sofa). The datasets used in the paper can be downloaded from [here]().
+All data was generated using [SOFA](https://github.com/sofa-framework/sofa). The datasets used in the paper can be downloaded from [here](https://drive.google.com/drive/folders/1hNQyOSWE8PncOoLwXku7-gTLQQlwcOrW?usp=sharing).
 If you want to create your own data using SOFA you can request data generation code
 from the [ALR](https://alr.anthropomatik.kit.edu/). Put all dataset to use into a `./data/sofa` and all trained models in the `./models` folder.
 
