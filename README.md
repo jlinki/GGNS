@@ -23,7 +23,7 @@ The Intersection over Union (IoU) metric for 2D data needs additional [PyMesh](h
 PyMesh can be installed following the instruction "Download the Source" from [here](https://pymesh.readthedocs.io/en/latest/installation.html).
 On the [BwUniCluster 2.0](https://wiki.bwhpc.de/e/Category:BwUniCluster_2.0) without `sudo` rights the [steps](docs/pymesh_cluster.md) to be completed are a little bit different.
 
-Shapely and Open3D can be installed in you conda environment using:
+Shapely and Open3D can be installed in your conda environment using:
 ```bash
 pip install open3d
 pip install Shapely
@@ -86,7 +86,7 @@ It additionally takes several input arguments `--arg` to modify the evaluation l
 Make sure to pass the data path of your model weights, located under `models` to the function. 
 For example, to evaluate our trained GGNS model on the _Deformable Plate Dataset_ run:
 ```bash
-python evaluate_model.py -r 'example_models/plate/ggns
+python evaluate_model.py -r 'example_models/plate/ggns'
 ```
 
 
